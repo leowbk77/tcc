@@ -1,0 +1,308 @@
+% main_bsiMC_ufu.tex v1.1, Thiago Pirola Ribeiro
+% adaptado do modelo PPGCO - main_ppgco_ufu.tex v1.0, Lásaro Camargos e Denise Guliato
+% Criacao: 2019-03-08 - v1.0
+% ------------------------------------------------------------------------
+% Atualizações.
+% 2022-10-18 - v1.1 - Thiago Pirola Ribeiro
+% ------------------------------------------------------------------------
+\documentclass{facomdsw}
+%Não altere o comando seguinte. O título de seu trabalho será especificado mais adiante.
+\title{Sugestão de Modelo de Trabalho de Conclusão de Curso FACOM - Desenvolvimento de Software}
+
+% ---
+% Pacotes fundamentais 
+% ---
+\usepackage{cmap}				% Mapear caracteres especiais no PDF
+\usepackage{lmodern}				% Usa a fonte Latin Modern			
+\usepackage{makeidx}            	% Cria o indice
+\usepackage{hyperref}  			% Controla a formação do índice
+\usepackage{lastpage}			% Usado pela Ficha catalográfica
+\usepackage{indentfirst}			% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{xcolor}             %inclusão de pacotes de cores para texto
+% ---
+
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo eesc
+% ---
+\usepackage{lipsum}				       % para geração de dummy text
+\usepackage[printonlyused]{acronym}
+\usepackage[table]{xcolor}
+% ---
+
+% ---
+% Insira aqui os pacotes utilizados por você
+% ---
+\usepackage{listings}
+\usepackage{tabularx}
+
+% Definição de cores para o realce de sintaxe (opcional, deixa mais legível)
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Configuração do estilo para scripts SQL
+\lstdefinestyle{sqlstyle}{
+    language=SQL,
+    backgroundcolor=\color{backcolour},   % Cor de fundo sutil
+    commentstyle=\color{codegreen},       % Cor dos comentários (--)
+    keywordstyle=\color{blue},            % Cor dos comandos (SELECT, CREATE)
+    numberstyle=\tiny\color{codegray},    % Estilo dos números de linha
+    stringstyle=\color{codepurple},       % Cor dos textos entre aspas
+    basicstyle=\ttfamily\small,           % Fonte monoespaçada (Courier/Consolas) tamanho 10 aprox.
+    breakatwhitespace=false,         
+    breaklines=true,                      % Quebra linhas longas automaticamente
+    captionpos=t,                         % Legenda no TOPO (Regra ABNT)
+    keepspaces=true,                 
+    numbers=left,                         % Números das linhas na esquerda
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=sqlstyle}
+
+% Tradução dos termos do pacote para o Português
+\renewcommand{\lstlistingname}{Código}
+\renewcommand{\lstlistlistingname}{Lista de Códigos}
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+%
+% Título:
+%	1. Título em português
+%	2. Título em inglês
+\titulo{Desenvolvimento de Aplicação Web para indexação e busca em diários oficiais dos municípios}
+
+% Colocar aqui ate 5 palavras-chave do trabalho
+\keyword{DOM}
+\keyword{Scraper}
+\keyword{Índice}
+
+%
+% Autor:
+%	1. Nome completo do autor
+%	2. Formato de nome para bibliografia
+\autor{Leonardo Marques Ferreira}{Ferreira, L.M.}
+% Cidade
+\local{Uberlândia - MG}
+%
+% Ano de defesa
+\date{2025}
+% Área de concentração da pesquisa
+\areaconcentracao{Sistemas de Informação}
+% Nome do orientador
+\orientador{Prof. Dr. Leonardo Muttoni}
+% Nome do coorientador, se houver
+%\coorientador{Nome completo do coorientador}
+% -
+
+
+% informações do PDF
+\hypersetup{
+	pdftitle={\imprimirtitulo},
+	pdfauthor={\imprimirautor},
+	pdfsubject={\imprimirpreambulo},
+%	pdfkeywords=\@resumokw,
+	pdfproducer={LaTeX with abnTeX2}, 	% producer of the document
+	colorlinks=true,       		% false: boxed links; true: colored links
+	linkcolor=black,          	% color of internal links
+	citecolor=black,        		% color of links to bibliography
+	filecolor=magenta,      		% color of file links
+	urlcolor=black,
+	bookmarksdepth=4
+}
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ---
+% Compila a lista de abreviaturas e siglas
+% ---
+\makenomenclature
+% ---
+
+% ----
+% Início do documento
+% ----
+
+\begin{document}
+	
+	% ----------------------------------------------------------
+	% ELEMENTOS PRÉ-TEXTUAIS
+	% ----------------------------------------------------------
+	\pretextual
+	
+	% ---
+	% Insere Capa, Folha de rosto, Ficha catalográfica (se inserida)
+	% e folha de aprovação (se inserida).
+	% ---
+	\maketitle
+
+	% ---
+	% Dedicatória - obrigatório somente para TCC 2
+	% ---
+	% \imprimirdedicatoria{
+    % Inserir aqui a dedicatória do trabalho caso exista, caso contrário comentar este trecho de código.
+    % }
+	% ---
+	
+	% ---
+	% Agradecimentos - obrigatório somente para TCC 2
+	% ---
+	% \imprimiragradecimentos{
+	% Inserir aqui os agradecimentos do trabalho caso exista, caso % contrário comentar este trecho de código.	
+	% }
+	% ---
+	
+	% ---
+	% Epígrafe - obrigatório somente para TCC 2
+	% ---
+	% \imprimirepigrafe{
+	% 	``Sua vida pode ser dividida em dois períodos: antes de agora e a partir de agora.''\\
+    % 		(Prof. Obvious Stating)
+	% }
+	% ---
+	
+	% ---
+	% RESUMO - obrigatório somente para TCC 2
+	% ---
+	
+	% Resumo em português
+	\begin{resumo}
+		AA principal motivação deste trabalho surge a partir das necessidades que existem em sistemas de busca em DOM`s (Diários Oficiais Municipais). O Objetivo é desenvolver um sistema capaz de buscar arquivos PDF (Portable Document Format) de documentos disponibilizados por prefeituras, realizar a leitura e indexação do conteúdo destes arquivos e possuir um mecanismo facilitador de busca textual, retornando os documentos que sejam mais relevantes. Como base para o desenvolvimento foi utilizado o portal de diários da prefeitura de Uberlândia, onde a busca por estes documentos é limitada ao dia e mês de publicação. Para isso será desenvolvido um \textit{Scraper} que fará o trabalho de obtenção, leitura e indexação, uma API (Application Programming Interface) que será responsável pelo acesso e busca no índice e servirá a uma interface web que permitirá aos usuários a busca, filtragem e acesso aos documentos.
+		%Segundo a \citeonline[3.1-3.2]{NBR6028:2003}, o resumo deve ressaltar os  objetivos do trabalho, os passos e tecnologias utilizadas no desenvolvimento, os resultados alcançados e as conclusões do trabalho. A ordem e a extensão  destes itens dependem do tipo de resumo (informativo ou indicativo) e do  tratamento que cada item recebe no documento original.  (\ldots) As palavras-chave devem figurar logo abaixo do  resumo, antecedidas da expressão Palavras-chave:, separadas entre si por  ponto e finalizadas também por ponto.
+		
+		%Para auxiliá-lo com o latex, o Apêndice \ref{cap_ajuda} apresenta os resultados dos comandos incluídos no arquivo ape\_comandos/abntex2-modelo-include-comandos.tex
+        \end{resumo}
+	% ---
+	% inserir lista de ilustrações
+	% ---
+	\listailustracoes
+	% ---
+	
+	% ---
+	% inserir lista de tabelas
+	% ---
+	\listatabelas
+	% ---
+	
+	% ---
+	% inserir lista de abreviaturas e siglas
+	% ---
+	\listasiglas{abrev/Abreviaturas}
+	% ---
+	
+	% ---
+	% inserir o sumario
+	% ---
+	\sumario
+	% ---
+	
+	% ----------------------------------------------------------
+	% ELEMENTOS TEXTUAIS
+	% ----------------------------------------------------------
+	\mainmatter
+	
+	
+	% ----------------------------------------------------------
+	% Introdução
+	% ----------------------------------------------------------
+	\include{cap1_introducao/introducao}
+	
+	
+	% ----------------------------------------------------------
+	% Requisitos do Sistema
+	% ----------------------------------------------------------
+	\include{cap2_requisitos_do_sistema/requisitos}
+		
+	% ----------------------------------------------------------
+	% Análise e Projeto do Sistema
+	% ----------------------------------------------------------
+	\include{cap3-análise_e_projeto_do_sistema/analise_projeto}
+
+    % ----------------------------------------------------------
+	% Desenvolvimento do Sistema
+	% ----------------------------------------------------------
+	\include{cap4_desenvolvimento_do_sistema/desenvolvimento_do_sistema}
+    
+	% ---
+	% Finaliza a parte no bookmark do PDF, para que se inicie o bookmark na raiz
+	% ---
+	\bookmarksetup{startatroot} 
+	% ---
+	
+	% ---
+	% Conclusões
+	% ---
+	\include{cap5_conclusões/conclusões}	
+	% ----------------------------------------------------------
+	% ELEMENTOS PÓS-TEXTUAIS
+	% ----------------------------------------------------------
+	\postextual
+	
+	% ----------------------------------------------------------
+	% Referências bibliográficas
+	% ----------------------------------------------------------
+	\bibliography{bib/modelo-referencias}
+	
+	% ----------------------------------------------------------
+	% Glossário - opcional
+	% ----------------------------------------------------------
+	%
+	%\glossary
+	
+	% ----------------------------------------------------------
+	% Apêndices  - opcional
+	% ----------------------------------------------------------
+	% ---
+	% Inicia os apêndices
+	% ---
+	%\begin{apendicesenv}
+		% Imprime uma página indicando o início dos apêndices
+%		\partapendices
+		% ----------------------------------------------------------
+		% Incluir Apêndice
+		% ----------------------------------------------------------
+		% Capitulo com exemplos de comandos inseridos de arquivo externo 
+		% ----------------------------------------------------------
+%		\include{apendices/abntex2-modelo-include-comandos}
+		
+%	\end{apendicesenv}
+	% ---
+	
+	% ----------------------------------------------------------
+	% Anexos  - opcional
+	% ----------------------------------------------------------
+	% ---
+	% Inicia os anexos
+	% ---
+%	\begin{anexosenv}
+		% Imprime uma página indicando o início dos anexos
+%		\partanexos
+		% ---
+		% Incluir Anexo
+		% ---
+%		\chapter[anexoA]{Titulo do anexo A}
+		
+%		<Inserir aqui o texto do seu anexo....>
+        
+
+ %       \chapter[anexoB]{Titulo do anexo B}
+
+  %      <Inserir aqui o texto do seu anexo....>
+        
+		%o comando lipsum[] comando serve apenas para incluir texto exemplo no documento para efeito de visualização do formato.
+   %     \lipsum[1-2]
+        
+%	\end{anexosenv}
+	
+	
+\end{document}

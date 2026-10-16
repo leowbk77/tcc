@@ -1,0 +1,42 @@
+\chapter[Introdução]{Introdução}
+
+\section{Contextualização do trabalho}
+Os Diários Oficiais dos Municípios são instrumentos importantes de transparência pública, servindo para a divulgação de atos administrativos, licitações, nomeações, leis, decretos e outras informações diversas para o meio social. Apesar de sua importância, existem municípios brasileiros que disponibilizam seus Diários Oficiais por meio de plataformas com recursos limitados de consulta e busca, o que dificulta o acesso a informação e limita a transparência.
+
+A Recuperação da Informação é a área da computação que cobre o armazenamento, organização e recuperação de documentos e conteúdos textuais. A área é de grande importância pois facilita o acesso a informação de maior interesse \cite{Baeza-Yates2013}. O surgimento da \textit{World Wide Web} impulsionou o crescimento da área pois se tornou um grande repositório de informação que precisa ser organizada para ser acessada. Tais técnicas de recuperação são amplamente utilizadas em mecanismos de busca e sistemas de gerenciamento de documentos. No contexto dos Diários Oficiais Municipais, a aplicação destas técnicas pode facilitar o acesso a informações de interesse público em formato digital.
+
+Nesse sentido, este trabalho propõe o desenvolvimento de um sistema de indexação e busca de documentos voltado para diários oficiais municipais que permita que os usuários possam fazer buscas textuais de maneira facilitada.
+
+\section{Problema e Justificativas}
+A maioria dos DOMs é disponibilizada em arquivos PDF que são publicados diariamente, em alguns casos em formato de documento web com pouca organização, frequentemente sem mecanismos de indexação textual e organizados cronologicamente, com cada município escolhendo formas diferentes de distribuição dos arquivos. Isso torna a consulta lenta, manual e pouco intuitiva, sendo agravado quando se tem um volume maior de documentos.
+Essa dificuldade afeta cidadãos, pesquisadores e outros interessados que necessitam consultar com regularidade as informações oficiais que são publicadas nos diários.
+Diante deste cenário surge a necessidade de soluções tecnológicas que tornem essas informações mais acessíveis e organizadas.
+
+\section{Objetivos}
+Um sistema de organização e recuperação de informação tem como composição um processo de coleta, indexação e recuperação \cite{Baeza-Yates2013} que permite que usuários tenham suas buscas por documentos facilitadas.
+Considerando este processo realizado por sistemas de organização e recuperação é possível traçar um paralelo com o objetivo deste trabalho, que é a criação de uma ferramenta que faça a coleta de documentos, indexação textual e busca em diários oficiais de municípios permitindo que os usuários localizem informações de forma estruturada e intuitiva.
+
+A solução é composta por três módulos principais: um módulo responsável pela coleta e indexação dos documentos, um módulo de backend para processamento e acesso aos dados e um de frontend responsável pela interface de interação dos usuários. Este conjunto de módulos fazem a composição da ferramenta que permitirá que usuários realizem consultas rápidas e mais eficientes em documentos previamente carregados e processados.
+
+Tendo em vista este objetivo, um rascunho da ideia será de desenvolver o sistema a partir dos seguintes módulos:
+
+\begin{enumerate}
+    \item Identificar municípios que disponibilizam PDFs com texto extraível (2 municípios inicialmente).
+    \item Implementar um módulo robô \textit{crawler} que faz o download dos arquivos PDF.
+    \item Processar estes arquivos, realizando a indexação de conteúdo, extraindo seus textos, relacionando trechos às páginas, datas e URLs de origem.
+    \item Construir um backend web capaz de realizar consultas ao índice textual e disponibilizar endpoints via API REST.
+    \item Construir um frontend web que permite buscas e apresente os resultados.
+    \item Aplicar testes e coletar feedback sobre a ferramenta.
+\end{enumerate}
+
+\section{Contribuições Esperadas}
+A transparência e o acesso à informação constituem os principais pilares deste trabalho, a lei de acesso à informação \cite{Lei:12527:2011} determina que dados públicos devem ser oferecidos de forma clara e acessível. Entretanto, na prática, a dificuldade de realizar buscas limita a transparência e este acesso a informação.
+
+A carência de ferramentas do tipo é notável, visto que cada município tem formas diferentes de acesso, alguns possuem ferramentas de maior facilidade de uso, como no portal de acesso da prefeitura do município de Patos de Minas - MG \cite{domsPatosDeMinas} enquanto outras prefeituras utilizam ferramentas terceiras que reúnem os documentos de muitos municípios e não são tão intuitivas.
+
+Uma ferramenta de busca estruturada pode beneficiar jornalistas, advogados, pesquisadores, servidores e cidadãos em geral, a automação do processo de busca de documentos reduz o tempo de consulta, amplia o acesso e moderniza o serviço público.
+\section{Organização do Trabalho}
+O presente trabalho está dividido da seguinte maneira:  O capítulo 1 apresenta a introdução e descrição do trabalho, no capitulo 2 são apresentados os requisitos do sistema 
+
+\section{IA-Generativa}
+A IA-Generativa foi utilizada para a revisão textual dos capítulos desenvolvidos, além da geração de código para diagramas UML usados na ferramenta plantUML.
