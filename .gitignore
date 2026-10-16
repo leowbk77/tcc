@@ -34,4 +34,4 @@ _minted-*
 *.ist
 
 # PDF resultado
-*.pdf
+# *.pdf

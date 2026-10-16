@@ -266,7 +266,7 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
 
 \subsection{Variáveis de Ambientes Necessárias}
 
- Toda a configuração dos módulos do sistema é feita através de arquivos de configuração listados, não é necessário que sejam definidas variáveis de ambiente diretamente no sistema que está executando as aplicações. Abaixo está listada as principais variáveis de configuração e quais módulos/arquivos elas pertencem:
+ Toda a configuração dos módulos do sistema é feita através de arquivos de configuração listados, não é necessário que sejam definidas variáveis de ambiente diretamente no sistema que está executando as aplicações. Abaixo está listada as principais variáveis de configuração e quais módulos e arquivos elas pertencem:
  
 \begin{table}[h]
     \centering
@@ -281,10 +281,11 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
         {}[logs{}].Path & Scraper & config.ini & Caminho onde o script de logs do scraper deve acessar para armazenar os registros \\
         {}[data{}].DownloadsDir & Scraper & config.ini & Caminho onde o scraper deve acessar para armazenar os arquivos pdf dos diarios \\
         {}[data{}].DataBaseDir & Scraper & config.ini & Caminho onde o scraper deve armazenar a base de dados indexada \\
-        ConnectionStrings & API & appsettings.json & Caminho onde a API deve encontrar o arquivo de base de dados de determinada cidade \\
+        ConnectionStrings & API & appsettings.env.json & Caminho onde a API deve encontrar o arquivo de base de dados de determinada cidade \\
         \bottomrule
     \end{tabularx}
 \end{table}
+
 %<Neste subitem devem ser detalhado os as variáveis de ambiente para o sistema.>
 
 
@@ -302,7 +303,7 @@ CONFIG.INI
 
 SYSTEMD/DIARIOS-SCRAPER.SERVICE
 
-<Neste subitem devem ser detalhado os arquivos de configuração para o sistema.>
+%<Neste subitem devem ser detalhado os arquivos de configuração para o sistema.>
 
 %---------------------------------------------------------------------------
 \section{Compilação e Implantação <Opcional>}
