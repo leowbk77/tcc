@@ -1,0 +1,37 @@
+# Arquivos gerados pelo LaTeX
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+*.lof
+*.lot
+*.run.xml
+
+# Diretórios temporários de compilação
+_minted-*
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+
+# Índices, glossários e abnTeX2
+*.brf
+*.idx
+*.ilg
+*.ind
+*.nlo
+*.nls
+*.ist
+
+# PDF resultado
+*.pdf
