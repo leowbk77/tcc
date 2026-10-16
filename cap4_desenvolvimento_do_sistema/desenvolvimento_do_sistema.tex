@@ -55,7 +55,7 @@ Para o desenvolvimento das aplicações que compõem o sistema foram utilizadas 
 \begin{table}[h]
     \centering
     \caption{Linguagens de desenvolvimento}
-    \label{tab:placeholder_label}
+    \label{tab:tabela_linguagens_dsv}
     \begin{tabularx}{\textwidth}{l l X}
         \toprule
         Linguagem & Versão & Descrição \\
@@ -97,7 +97,7 @@ Em todas as ferramentas desenvolvidas neste trabalho foram utilizadas biblioteca
 \begin{table}[h]
     \centering
     \caption{Bibliotecas utilizadas}
-    \label{tab:bibliotecas_utilizadas}
+    \label{tab:tabela_bibliotecas_utilizadas}
     \begin{tabularx}{\textwidth}{l l X}
         \toprule
         Ferramenta & Módulo & Função \\
@@ -129,15 +129,15 @@ O uso de sistemas e componentes complementares ficou mais direcionado na implant
 \begin{table}[h]
     \centering
     \caption{Sistemas e componentes externos}
-    \label{tab:sistemas_e_componentes_externos}
-    \begin{tabularx}{\textwidth}{l l X}
+    \label{tab:tabela_sistemas_e_componentes_externos}
+    \begin{tabularx}{\textwidth}{l X}
         \toprule
         Componente & Descrição \\
         \midrule
-        Docker & \\
-        Nginx & ... \\
-        Ubuntu Server & ... \\
-        Cloudflare Tunnels & ... \\
+        Docker & Plataforma utilizada para executar a API .NET e o servidor web Nginx em contêineres isolados \\
+        Nginx & Servidor web responsável por disponibilizar os arquivos estáticos do frontend React e atuar como proxy reverso, encaminhando as requisições destinadas à API para o contêiner correspondente. \\
+        Ubuntu Server & Sistema operacional do servidor utilizado para hospedar a aplicação, executar os contêineres Docker e disponibilizar o ambiente necessário para a execução do processo de coleta e indexação dos documentos. \\
+        Cloudflare Tunnels & Serviço utilizado para estabelecer uma conexão segura entre o servidor de origem e a infraestrutura da Cloudflare, permitindo disponibilizar a aplicação externamente por meio de um domínio público sem exigir a exposição direta das portas do servidor à Internet. \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -167,7 +167,7 @@ A execução do sistema requer uma infraestrutura capaz de hospedar os component
 \begin{table}[h]
     \centering
     \caption{Componentes usados na execução}
-    \label{tab:placeholder_label}
+    \label{tab:tabela_componentes_usados_na_execucao}
     \begin{tabularx}{\textwidth}{l l X}
         \toprule
         Componente & Ferramenta & Finalidade \\
@@ -271,7 +271,7 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
 \begin{table}[h]
     \centering
     \caption{Variáveis de ambiente}
-    \label{tab:variaveis_de_ambiente}
+    \label{tab:tabela_variaveis_de_ambiente}
     \begin{tabularx}{\textwidth}{l l l X}
         \toprule
         Variável & Módulo & Arquivo & Descrição \\
@@ -293,13 +293,36 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
 
 A maior parte dos arquivos de configuração está relacionada a implantação do sistema no servidor, abaixo estão listados os arquivos de configuração 
 
+\begin{lstlisting}[caption={config.ini}, label={cfg:config_python}, language=Python]
+[parser]
+MenorAno = 2015
+
+[parser.cidades]
+Uberlandia = udi
+
+[logs]
+Path = /opt/diariosapp/scraping/py_diarios_scraper/src/logs/
+
+[data]
+DownloadsDir = /opt/diariosapp/scraping/py_diarios_scraper/src/downloads/
+DataBaseDir = /opt/diariosapp/data/
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
+
+\begin{lstlisting}[caption={appsettings.env.json}, label={cfg:config_dotnet}, language=csh]
+{
+  "ConnectionStrings": {
+    "udi": "Data Source=/data/udi.db",
+    "monte": "Data Source=./data/monte.db"
+  },
+}
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
+
+
 DOCKERCOMPOSE
 
 NGINX.CONF
-
-APPSETTINGS.DEV.JSON
-
-CONFIG.INI
 
 SYSTEMD/DIARIOS-SCRAPER.SERVICE
 
@@ -390,7 +413,7 @@ As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios
 \begin{table}[h]
     \centering
     \caption{Links de repositórios}
-    \label{tab:placeholder_label}
+    \label{tab:tabela_links_repos}
     \begin{tabularx}{\textwidth}{l l}
         \toprule
         Ferramenta & Acesso \\
@@ -409,7 +432,7 @@ As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios
     \centering
     \includegraphics[width=0.6\linewidth]{figs//prints/estruturaServidorTCC.png}
     \caption{Estrutura de Diretórios no servidor}
-    \label{fig:placeholder}
+    \label{fig:prints_estrutura_server}
 \end{figure}
 
 \subsection{Guia de Contribuições (se aplicável)}

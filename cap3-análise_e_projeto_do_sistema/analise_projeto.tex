@@ -6,7 +6,7 @@ Este capítulo apresenta a análise e projeto do sistema de acordo com os requis
     \centering
     \includegraphics[width=0.7\linewidth]{figs/RPBFRjD.png}
     \caption{Arquitetura do Sistema de Recuperação}
-    \label{fig:placeholder}
+    \label{fig:diagrama_arquitetura_sistema_recuperacao}
 \end{figure}
 
 %<Este capítulo tem como objetivo analisar e projetar a solução do sistema de acordo com os requisitos levantados e validados no capítulo 2. Para isso, deve-se ter uma visão geral da arquitetura do sistema e a modelagem da solução do sistema através de diagramas.>
@@ -19,7 +19,7 @@ O modelo inicial de domínio da figura 6 representa o problema que o sistema bus
     \centering
     \includegraphics[width=0.7\linewidth]{figs/diagramas/ModeloDominioDoSistema.png}
     \caption{Modelo de domínio do sistema}
-    \label{fig:placeholder}
+    \label{fig:diagrama_modelo_dominio_sistema}
 \end{figure}
 
 A partir deste modelo já é possível ter uma ideia inicial dos módulos que compõem o sistema. Se faz necessário um componente de obtenção e indexação dos documentos, um componente responsável pelas consultas e um componente de exibição dos resultados, no caso deste trabalho, como foi mostrado na figura 5, o paralelo são os módulos de coleta e indexação, backend e frontend, respectivamente.
@@ -38,7 +38,7 @@ A seguir são apresentados os diagramas de sequência mais relevantes do sistema
     \centering
     \includegraphics[width=0.5\linewidth]{figs//diagramas/DiagramaDeSequenciaDeBusca.png}
     \caption{Diagrama de sequência da busca}
-    \label{fig:placeholder}
+    \label{fig:diagrama_sequencia_busca}
 \end{figure}
 
 Nos itens seguintes são apresentados os diagramas  referentes ao processo de coleta e indexação, processo de busca e processo de visualização dos documentos, assim como os requisitos funcionais correspondentes a estes processos.
@@ -59,7 +59,7 @@ O diagrama do processo de coleta e indexação abrange os requisitos funcionais 
     \centering
     \includegraphics[width=0.6\linewidth]{figs//diagramas/SeqColetaEIndex.png}
     \caption{Processo de Coleta e Indexação}
-    \label{fig:placeholder}
+    \label{fig:diagrama_processo_coleta_index}
 \end{figure}
 
 A indexação é feita a partir da leitura de cada página do documento separadamente, que salva na tabela "docs\_fts" o número de página, conteúdo e id de documento correspondente. Após a indexação total das páginas do documento o processo é concluído.
@@ -72,7 +72,7 @@ Já o diagrama de busca abrange os requisitos funcionais RF005, RF006 e RF007, n
     \centering
     \includegraphics[width=0.8\linewidth]{figs//diagramas/SeqBuscaTextual.png}
     \caption{Processo de Busca}
-    \label{fig:placeholder}
+    \label{fig:diagrama_processo_busca}
 \end{figure}
 
  A API possui um endpoint de pesquisa ("/search"), que recebe a requisição com os dados de busca definidos pelo usuário e a montagem da consulta é feita a depender de quais dados de busca foram enviados, sendo possível buscar apenas por consulta de texto, datas e edição, ou o conjunto destas informações. O resultado da consulta realizada é serializado em formato JSON e devolvido ao front para listagem.
@@ -85,7 +85,7 @@ O diagrama de visualização da figura X expande o diagrama do processo de busca
     \centering
     \includegraphics[width=0.8\linewidth]{figs//diagramas/SeqVisualizacaoDosResultados.png}
     \caption{Visualizacao dos Resultados}
-    \label{fig:placeholder}
+    \label{fig:diagrama_visualizacao_resultados}
 \end{figure}
 
 Depois que o usuário definiu quais termos de busca e filtros serão aplicados, esta informação é repassada para a API que realiza a busca na base de dados usando a consulta definida. Primeiramente é obtida a lista de id's de documentos que resultam da busca realizada, a partir destes id's são obtidos os metadados e as 3 primeiras páginas de cada um destes documentos que contém os trechos pesquisados (no caso de busca textual), caso a busca seja feita somente por data a API retorna somente a primeira página do documento. O frontend recebe a resposta da consulta com estes dados e faz a listagem usando as informações de edição, data e link de acesso ao pdf, além de utilizar as páginas que contém os trechos pesquisados para exibir a prévia na listagem.
@@ -99,7 +99,7 @@ A figura XX apresenta o modelo de Entidade-Relacionamento construído nas versõ
     \centering
     \includegraphics[width=0.7\linewidth]{figs//diagramas/DERjunto.png}
     \caption{Modelo Entidade Relacionamento}
-    \label{fig:placeholder}
+    \label{fig:diagrama_modelo_entidade}
 \end{figure}
 
 Com o avanço do desenvolvimento, este modelo foi alterado para que estes valores fossem armazenados em um único campo de texto, utilizando o formato YYYY-MM-DD \cite{iso8601} para representar a data, o que permite que a tabela fique mais simplificada e as consultas que dependem de filtragem por tempo também sejam melhoradas. Além disso, o formato armazenado é reconhecido por diferentes linguagens de programação que possuem funções que trabalham com datas, como por exemplo C\# usado na API backend que possui as classes "DateTime" e "DateOnly". O campo "indexado" também foi removido já que os documentos só aparecem no banco depois de serem indexados, o que tornaria o campo redundante.
@@ -121,7 +121,7 @@ Diferente de outros motores de banco de dados que normalmente precisam de um tra
 
 Os scripts abaixo representam a criação de tabelas do banco, já utilizando o modelo final definido. O código 3.1 apresenta o script de criação da tabela "docs", que contém os metadados do documento, já o código 3.2 apresenta o script de criação da tabela "docs\_fts", que armazena as páginas indexadas de cada documento.
 
-\begin{lstlisting}[caption={Criação da tabela de documentos}, label={sql:criacao_docs}]
+\begin{lstlisting}[caption={Criação da tabela de documentos}, label={sql:criacao_docs}, language=SQL]
 CREATE TABLE IF NOT EXISTS docs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nm_edicao TEXT UNIQUE NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS docs(
 
 A tabela "docs" apresentada no código 3.1 serve como um indice dos documentos que foram lidos e indexados, ela contém uma chave de id único para cada documento e seus dados básicos que são utilizados pelo frontend para listagem, além do link de acesso direto ao arquivo pdf do diário, armazenado na coluna "caminho".
 
-\begin{lstlisting}[caption={Criação da tabela de indexação dos documentos}, label={sql:criacao_docs_fts}]
+\begin{lstlisting}[caption={Criação da tabela de indexação dos documentos}, label={sql:criacao_docs_fts}, language=SQL]
 CREATE VIRTUAL TABLE IF NOT EXISTS docs_fts
 USING fts5(doc_id, pagina, conteudo, tokenize = "unicode61 remove_diacritics 0");
 \end{lstlisting}
@@ -147,7 +147,7 @@ O banco de dados do sistema foi modelado para armazenar os metadados e o conteú
 \begin{table}[h]
     \centering
     \caption{Tabela: docs}
-    \label{tab:placeholder_label}
+    \label{tab:tabela_tbl_docs}
     \begin{tabularx}{\textwidth}{l l c X}
         \toprule
         Campo & Tipo & Chave & Descrição \\
@@ -165,10 +165,10 @@ A segunda é a tabela "docs\_fts", que é uma tabela criada utilizando o mecanis
 \begin{table}[h]
     \centering
     \caption{Tabela FTS5: docs\_fts}
-    \label{tab:placeholder_label}
+    \label{tab:tabela_tbl_fts5_docs}
     \begin{tabularx}{\textwidth}{l l c X}
         \toprule
-        Campo & Tipo armazenado & Chave & Descrição \\
+        Campo & Tipo & Chave & Descrição \\
         \midrule
         doc\_id & INTEGER & FK & Campo usado como chave estrangeira que aponta para a chave primaria da tabela docs \\
          pagina & INTEGER &  &  Campo que armazena o número da página indexada\\
@@ -189,7 +189,7 @@ A figura XX contém o diagrama de classes da API, que apresenta as classes de mo
     \centering
     \includegraphics[width=0.8\linewidth]{figs//diagramas/DiagramaClassesApi.png}
     \caption{Diagrama de classes da API backend}
-    \label{fig:placeholder}
+    \label{fig:diagrama_classes_api_back}
 \end{figure}
 
  O pacote de requests contém a classe "SearchRequest" que é o modelo de dados que a API espera receber para realizar a busca, nela está definido os campos de termos da busca, datas para a filtragem, edição, ultimo id de documento buscado, limite de documentos na resposta e cidade correspondente. No pacote de Responses a classe "SearchResponse" representa o modelo de retorno da busca, contendo uma lista de resultados encontrados, sendo estes os diários e o conteúdo das páginas que correspondem com os termos pesquisados para exibição de prévia no frontend.
@@ -209,7 +209,7 @@ A figura XX demonstra o diagrama de fluxo de busca do sistema, que descreve o ca
     \centering
     \includegraphics[width=0.6\linewidth]{figs//diagramas/FluxosJunto.png}
     \caption{Fluxos do sistema}
-    \label{fig:placeholder}
+    \label{fig:diagrama_fluxos_sistema}
 \end{figure}
 
 No fluxo de coleta e indexação, o software foi pensado para receber uma lista de parâmetros (flags) para dar início ao seu fluxo de execução, neste trabalho foram desenvolvidos dois fluxos, o principal, que faz a busca e indexação dos documentos presentes no site da prefeitura de Uberlândia, neste caso é informado ao programa as flags de download, cidade, ano e mês. A execução de busca no site da prefeitura, download e indexação dos documentos e seus metadados é realizada automaticamente. O segundo fluxo é o de indexação local, onde é possível utilizar arquivos salvos localmente para serem indexados, neste caso é necessário informar o documento, a cidade, URI de acesso ao documento, além do ano, mês e dia correspondente ao diário sendo indexado.
@@ -235,7 +235,7 @@ Um único servidor foi utilizado para a execução de todos os recursos desenvol
     \centering
     \includegraphics[width=0.6\linewidth]{figs//diagramas/DiagramaDeImplantacao.png}
     \caption{Diagrama de Implantação do Sistema}
-    \label{fig:placeholder}
+    \label{fig:diagrama_implantacao_sistema}
 \end{figure}
 
  Já o serviço python de coleta e indexação opera diretamente no sistema operacional do servidor. A API tem acesso ao banco de dados que é compartilhado entre o sistema operacional do servidor e o container através de um volume compartilhado que é definido no arquivo YML de estrutura operado pelo Docker Compose, isto permite que o scraper e a API possam acessar a base de dados para realizar as operações de indexação e busca.
