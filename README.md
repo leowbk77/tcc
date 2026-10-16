@@ -1,1 +1,2 @@
-acessar o modelo original para ver as indicações que foram apagadas para a entrega 5
+Repositório da monografia do trabalho de conclusão de curso de busca e indexação de diários
+

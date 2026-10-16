@@ -271,20 +271,22 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
 \begin{table}[h]
     \centering
     \caption{Variáveis de ambiente}
-    \label{tab:placeholder_label}
+    \label{tab:variaveis_de_ambiente}
     \begin{tabularx}{\textwidth}{l l l X}
         \toprule
         Variável & Módulo & Arquivo & Descrição \\
         \midrule
-        [parser].MenorAno & Scraper & config.ini & Define o ano limite que o scraper pode buscar \\ 
-        [parser.cidades] & Scraper & config.ini & Lista de cidades configuradas para indexação de documentos \\
-        [logs].Path & Scraper & config.ini & Caminho onde o script de logs do scraper deve acessar para armazenar os registros \\
-        [data].DownloadsDir & Scraper & config.ini & Caminho onde o scraper deve acessar para armazenar os arquivos pdf dos diarios \\
-        [data].DataBaseDir & Scraper & config.ini & Caminho onde o scraper deve armazenar a base de dados indexada\\
+        {}[parser{}].MenorAno & Scraper & config.ini & Define o ano limite que o scraper pode buscar \\ 
+        {}[parser.cidades{}] & Scraper & config.ini & Lista de cidades configuradas para indexação de documentos \\
+        {}[logs{}].Path & Scraper & config.ini & Caminho onde o script de logs do scraper deve acessar para armazenar os registros \\
+        {}[data{}].DownloadsDir & Scraper & config.ini & Caminho onde o scraper deve acessar para armazenar os arquivos pdf dos diarios \\
+        {}[data{}].DataBaseDir & Scraper & config.ini & Caminho onde o scraper deve armazenar a base de dados indexada \\
+        ConnectionStrings & API & appsettings.json & Caminho onde a API deve encontrar o arquivo de base de dados de determinada cidade \\
         \bottomrule
     \end{tabularx}
 \end{table}
 %<Neste subitem devem ser detalhado os as variáveis de ambiente para o sistema.>
+
 
 \subsection{Arquivos de Configuração}
 
