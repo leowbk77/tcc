@@ -65,7 +65,7 @@ Para o desenvolvimento das aplicações que compõem o sistema foram utilizadas 
         TypeScript & 6.0.2 &Linguagem de script que é uma extensão do JavaScript, adicionando tipagem. Usada no módulo de frontend para o desenvolvimento da pagina web de buscas. \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 As linguagens foram escolhidas levando em consideração dois fatores principais, sendo eles, o conhecimento prévio do autor no uso da linguagem e a facilidade de implementação dos recursos necessários em cada módulo. O objetivo foi facilitar ao máximo o desenvolvimento e manutenção dos diferentes módulos da aplicação.
 
@@ -110,7 +110,7 @@ Em todas as ferramentas desenvolvidas neste trabalho foram utilizadas biblioteca
         zustand & Frontend &   Gerenciamento de estado global de dados \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 %<Listar, definir referenciar e descrever as bibliotecas utilizadas no desenvolvimento.>
 \subsection{Ferramentas Auxiliares}
@@ -140,24 +140,25 @@ O uso de sistemas e componentes complementares ficou mais direcionado na implant
         Cloudflare Tunnels & Serviço utilizado para estabelecer uma conexão segura entre o servidor de origem e a infraestrutura da Cloudflare, permitindo disponibilizar a aplicação externamente por meio de um domínio público sem exigir a exposição direta das portas do servidor à Internet. \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 %<Neste item devem ser descritos os sistemas e componentes externos que serão utilizados no sistema. Por exemplo, sistemas que serão integrados ao sistema desenvolvido, componentes comprados ou livre que estão sendo utilizados para facilitar ou complementar o desenvolvimento do sistema.>
 
 %---------------------------------------------------------------------------
 \section{Instalação e Configurações}
 
-Nesta seção é descrita o processo de instalação e configuração das aplicações envolvidas no sistema de indexação e busca de diários, o sistema funciona como uma aplicação web e sua implementação é composta em três partes:
+Nesta seção é descrita o processo de instalação e configuração das aplicações envolvidas no sistema de indexação e busca de diários, o sistema funciona como uma aplicação web e sua implementação é composta em quatro partes:
 
 \begin{enumerate}
     \item Scraper em Python: responsável pela coleta e extração do conteúdo dos arquivos.
     \item API REST em .NET: responsável por disponibilizar os dados indexados e executar as consultas realizadas pelo frontend web.
     \item Frontend em React + TypeScript: responsável pela interface de busca e apresentação de resultados.
+    \item Configuração do ambiente de execução.
 \end{enumerate}
 
-A persistência dos dados é feita através do SQLite, com utilização do mecanismo SQLite FTS (Full-Text Search) para as consultas textuais. Durante o desenvolvimento, a aplicação foi hospedada em um servidor Ubuntu utilizando Docker para executar os componentes da API REST e o frontend React, já o scraper é executado diretamente no sistema operacional do servidor, onde um script de execução foi configurado para que o processo de busca e indexação aconteça de forma automatizada durante o período de testes da aplicação. Os componentes do sistema de busca possuem arquivos de configuração separados, durante a implantação se faz necessário ajustar estes arquivos de acordo com o ambiente em que o sistema está sendo executado, a principal razão disto é que as diferentes aplicações podem compartilhar o diretório de dados onde os arquivos SQLite são armazenados.
+A persistência dos dados é feita através do SQLite, com utilização do mecanismo SQLite FTS (Full-Text Search) para as consultas textuais. Durante o desenvolvimento, a aplicação foi hospedada em um servidor Ubuntu utilizando Docker para executar os componentes da API REST e o frontend React, já o scraper é executado diretamente no sistema operacional do servidor, onde um script de execução foi configurado para que o processo de busca e indexação aconteça de forma automatizada durante o período de testes da aplicação. Os componentes do sistema de busca possuem arquivos de configuração separados, durante a implantação se faz necessário ajustar estes arquivos de acordo com o ambiente em que o sistema está sendo executado, a principal razão disto é que os diferentes módulos do sistema compartilham o diretório de dados onde os arquivos SQLite são armazenados.
 
-As descrições de instalação e configuração deste trabalho são feitas a partir do processo de implantação que foi realizado durante o desenvolvimento e testes do sistema de buscas em um servidor próprio, é possível executar as aplicações individualmente diretamente no sistema operacional sem a necessidade do processo aqui descrito utilizando Docker e Nginx, porém, a descrição apresentada nas seções adiante buscam se aproximar de um ambiente real de execução do sistema, utilizando Docker e Nginx para a execução das aplicações e distribuição web.
+As descrições de instalação e configuração deste trabalho são feitas a partir do processo de implantação que foi realizado durante o desenvolvimento e testes do sistema de buscas em um servidor próprio, é possível executar as aplicações individualmente diretamente no sistema operacional sem a necessidade do processo aqui descrito utilizando Docker e Nginx, porém, a descrição apresentada nas seções seguintes buscam se aproximar de um ambiente real de execução do sistema, utilizando Docker e Nginx para a execução das aplicações e distribuição web.
 
 %<Neste item devem ser descritos os requisitos necessários para instalação e configuração do sistema.>
 \subsection{Pré-requisitos do Sistema}
@@ -180,7 +181,7 @@ A execução do sistema requer uma infraestrutura capaz de hospedar os component
         Acesso externo & Cloudflare Tunnel & Publicação do sistema na Internet \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 O processo de coleta dos documentos requer a instalação do Python e um ambiente virtual destinado ao isolamento das dependências utilizadas pelo scraper diretamente no servidor, o processo de configuração e os scripts de automação através do systemd são descritos mais adiante. Além disso, o acesso a internet é necessário para que o serviço de coleta possa buscar os documentos nos repositórios do site da prefeitura.
 
@@ -224,22 +225,18 @@ Para o usuário final, não são necesários componentes adicionais instalados. 
 
 O processo de instalação/execução é dividido em partes, seguindo a separação dos módulos do sistema, cada aplicação é compilada/construída separadamente, depois os fragmentos que resultam do processo de compilação são enviados ao servidor onde as demais configurações necessárias são realizadas.
 
-\subsubsection{Servidor}
-Antes deste processo, o preparação no servidor começa pela criação dos conteiners que vão executar os componentes web da aplicação. A arquitetura possui dois conteiners principais:
-
-\begin{enumerate}
-    \item diarios-api
-    \item diarios-ui
-\end{enumerate}
-
-O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação.
-
 \subsubsection{Frontend}
 Para o frontend, durante o desenvolvimento, a aplicação utiliza o servidor de desenvolvimento do Vite. Para a implantação, no entanto, não é necessário que o servidor possua Node.js ou Vite sendo executado. O processo de publicação é realizado da seguinte maneira:
 
 \begin{enumerate}
-    \item O processo de construção é feito na máquina de desenvolvimento.
-    \item O comando de construção gera o diretório com os arquivos estáticos da aplicação.
+    \item O processo de construção é feito na máquina de desenvolvimento com o comando:
+\begin{lstlisting}[caption={}, label={run:npm_build}, language=bash]
+npm run build
+\end{lstlisting}\noindent
+    \item O comando de construção gera o diretório com os arquivos estáticos da aplicação:
+\begin{lstlisting}[caption={}, label={run:npm_build_dir}, language=bash]
+frontend/dist/
+\end{lstlisting}\noindent
     \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é posteriormente acessado pelo Nginx para disponibilização da aplicação na web.
 \end{enumerate}
 
@@ -249,7 +246,10 @@ Portanto, o ambiente no servidor não executa código React diretamente. Os arqu
 Para o backend, o desenvolvimento fica contido à IDE do Visual Studio, onde a aplicação é desenvolvida e testada localmente em um ambiente integrado. Partindo para o processo de implantação, sua publicação é semelhante ao processo do frontend:
 
 \begin{enumerate}
-    \item O processo de construção é feito na máquina de desenvolvimento.
+    \item O processo de construção é feito na máquina de desenvolvimento com o comando:
+\begin{lstlisting}[caption={}, label={run:dotnet_build}, language=bash]
+dotnet publish -c Release
+\end{lstlisting}\noindent
     \item O comando de construção gera o diretório com os arquivos estáticos da aplicação.
     \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é montado como um volume no container da API.
     \item O arquivo de configuração da aplicação é ajustado conforme a estrutura de diretórios da implantação.
@@ -261,6 +261,16 @@ O diretório gerado pela construção contém o assembly principal da aplicaçã
 Para o módulo do scraper o processo é um pouco diferente dos dois módulos anteriores, o scraper utiliza um ambiente virtual próprio para evitar que suas dependências sejam instaladas globalmente no sistema operacional, isto vale tanto para o ambiente de desenvolvimento como para o ambiente de implantação. Por se tratar de uma linguagem interpretada, não é necessário que seja feita a compilação dos arquivos de código da aplicação, a execução pode ser feita diretamente ao passar o arquivo de script principal do scraper para o interpretador da linguagem Python. O repositório do código do scraper possui um arquivo "requirements.txt" que permite a ferramenta "pip" do Python obter as dependências necessárias do projeto dentro do ambiente virtual criado.
 
 Após a criação do ambiente virtual e obtenção das dependências do projeto, o scraper deve ser executado utilizando do interpretador Python presente no diretório do ambiente virtual, permitindo que o projeto tenha acesso as dependências previamente definidas. Além disso, uma configuração adicional é necessária no arquivo de configuração presente no diretório do projeto do scraper, para certificação de que o scraper está acessando o mesmo diretório de base dadaos que a API, já que o banco de dados é compartilhado entre os dois módulos do sistema de buscas. Esta configuração é demonstrada nas seções seguintes.
+
+\subsubsection{Servidor}
+Antes deste processo, o preparação no servidor começa pela criação dos conteiners que vão executar os componentes web da aplicação. A arquitetura possui dois conteiners principais:
+
+\begin{enumerate}
+    \item diarios-api
+    \item diarios-ui
+\end{enumerate}
+
+O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação.
 
 %<Neste subitem devem ser detalhado os procsso de instalação/ execução do para o sistema.>
 
@@ -284,14 +294,14 @@ Após a criação do ambiente virtual e obtenção das dependências do projeto,
         ConnectionStrings & API & appsettings.env.json & Caminho onde a API deve encontrar o arquivo de base de dados de determinada cidade \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 %<Neste subitem devem ser detalhado os as variáveis de ambiente para o sistema.>
 
 
 \subsection{Arquivos de Configuração}
 
-A maior parte dos arquivos de configuração está relacionada a implantação do sistema no servidor, os blocos de código \ref{cfg:config_python}, \ref{cfg:config_dotnet}, ... apresentam o conteúdo destes arquivos com trechos de exemplo de configuração.
+A maior parte dos arquivos de configuração está relacionada a implantação do sistema no servidor, os blocos de código \ref{cfg:config_python} à \ref{sh:run_scraper_sh} apresentam o conteúdo destes arquivos com trechos de exemplo de configuração.
 
 \begin{lstlisting}[caption={config.ini}, label={cfg:config_python}, language=Python]
 [parser]
@@ -320,11 +330,100 @@ DataBaseDir = /opt/diariosapp/data/
 \noindent{\footnotesize Fonte: O autor (2026).}
 
 
-DOCKERCOMPOSE
+\begin{lstlisting}[caption={docker-compose.yml}, label={cfg:config_docker}, language=csh]
+services:
+  api:
+    image: mcr.microsoft.com/dotnet/aspnet:9.0
+    container_name: diarios-api
+    working_dir: /app
+    command: dotnet Diarios.Api.dll
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+    expose:
+      - "8080"
+    volumes:
+      - ./backend/publish:/app:ro
+      - ./data:/data
+    restart: unless-stopped
 
-NGINX.CONF
+  frontend:
+    image: nginx:alpine
+    container_name: diarios-ui
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - api
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
 
-SYSTEMD/DIARIOS-SCRAPER.SERVICE
+\begin{lstlisting}[caption={nginx.conf}, label={cfg:config_nginx}, language=csh]
+server {
+    listen 80;
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api {
+        proxy_pass http://api:8080;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
+
+
+\begin{lstlisting}[caption={diarios-scraper.service}, label={cfg:config_srvc_diarios_scraper}, language=csh]
+[Unit]
+Description=Coleta de diarios
+
+[Service]
+Type=oneshot
+User=lmf
+WorkingDirectory=/opt/diariosapp/scraping/py_diarios_scraper
+ExecStart=/opt/diariosapp/scraping/run_scraper.sh
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
+
+
+\begin{lstlisting}[caption={diarios-scraper.timer}, label={cfg:config_srvc_diarios_scraper_timer}, language=csh]
+[Unit]
+Description=Agendamento da coleta de diarios
+
+[Timer]
+OnCalendar=*-*-* 23:55:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
+
+
+\begin{lstlisting}[caption={run-scraper.sh}, label={sh:run_scraper_sh}, language=bash]
+#!/bin/bash
+
+ANO=$(date +%Y)
+MES=$(date +%-m)
+
+/opt/diariosapp/scraping/py_diarios_scraper/.venv/bin/python \
+/opt/diariosapp/scraping/py_diarios_scraper/src/diarios_scrap.py -i -dl -a "$ANO" -m "$MES" -c udi
+\end{lstlisting}
+\noindent{\footnotesize Fonte: O autor (2026).}
 
 %<Neste subitem devem ser detalhado os arquivos de configuração para o sistema.>
 
@@ -424,7 +523,7 @@ As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios
         \href{https://github.com/leowbk77/js_diarios_ui}{https://github.com/leowbk77/js\_diarios\_ui}\\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 \subsection{Estrutura de Diretórios}
 

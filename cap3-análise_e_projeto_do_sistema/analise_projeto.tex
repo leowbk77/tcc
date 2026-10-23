@@ -158,7 +158,7 @@ O banco de dados do sistema foi modelado para armazenar os metadados e o conteú
         dt\_edicao & TEXT & & Campo que contém a data do diário oficial em formato YYYY-MM-DD\\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 A segunda é a tabela "docs\_fts", que é uma tabela criada utilizando o mecanismo FTS5 que serve como tabela de indexação do conteúdo dos documentos. É através dela que o recurso de busca textual do SQLite opera.
 
@@ -175,7 +175,7 @@ A segunda é a tabela "docs\_fts", que é uma tabela criada utilizando o mecanis
          conteudo & TEXT &  & Campo que armazena o texto extraído da página \\
         \bottomrule
     \end{tabularx}
-\end{table}
+\end{table}{\footnotesize Fonte: O autor (2026).}
 
 Todo o conteúdo dos documentos é separado por páginas durante a leitura do arquivo no módulo de scraping e cada página é armazenada separadamente na tabela. No SQLite, internamente todo conteúdo das tabelas criadas usando este mecanismo é tratado e otimizado como texto, por isso suas colunas não possuem tipo como foi possível visualizar anteriormente no código \ref{sql:criacao_docs_fts}, os dados armazenados são parte de um índice invertido e são "tokenizados" para otimização de busca textual.
 
