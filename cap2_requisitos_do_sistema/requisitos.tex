@@ -50,7 +50,7 @@ Estimativas preliminares de orçamento para o projeto:
 \begin{table}[h]
     \centering
     \caption{Custos de software}
-    \label{tab:placeholder_label}
+    \label{tab:custos_software}
     \begin{tabular}{ll}
         \hline
         Recurso & Custo \\ \hline
@@ -65,7 +65,7 @@ Estimativas preliminares de orçamento para o projeto:
 \begin{table}[h]
     \centering
     \caption{Custos de Infraestrutura}
-    \label{tab:placeholder_label}
+    \label{tab:custos_infra}
     \begin{tabular}{ll}
         \hline
         Recurso & Custo \\
@@ -78,13 +78,13 @@ Estimativas preliminares de orçamento para o projeto:
 
 \subsection{Cronograma de Desenvolvimento}
 % <Deve-se elaborar o cronograma detalhado do sistema, que contempla todas as tarefas descritas e os recursos alocados para cada tarefa, com datas para início e término de cada atividade. A seqüência das tarefas e a divisão entre os recursos devem ser realizadas de acordo com o processo de desenvolvimento de software escolhido para o desenvolvimento do sistema.>
-O cronograma geral de desenvolvimento dos módulos do sistema pode ser visualizado na figura 1:
+O cronograma geral de desenvolvimento dos módulos do sistema pode ser visualizado na figura \ref{fig:cronograma_desenvolvimento}:
 
 \begin{figure}[htbp!]
     \centering
     \includegraphics[width=1\linewidth]{figs/cronogramaDesenvolvimento.png}
     \caption{Cronograma de desenvolvimento}
-    \label{fig:placeholder}
+    \label{fig:cronograma_desenvolvimento}
 \end{figure}
 
 A ideia do cronograma de desenvolvimento foi seguir a divisão de módulos do sistema, como o módulo de scraping e indexação precisa funcionar antes do processo de busca, o desenvolvimento partiu dele. Este módulo exigiu mais tempo de desenvolvimento pois foi necessário um período de entendimento de como a ferramenta deveria operar e quais ferramentas e/ou bibliotecas poderiam ser utilizadas para atingir o objetivo de obter e indexar os documentos de forma satisfatória. Além do tempo adicional para adaptar a ferramenta a realizar o scraping especificamente ao site da prefeitura de Uberlândia, que foi usado como base para a construção da ferramenta. A base para o desenvolvimento do sistema de busca foi construída no primeiro módulo, o que facilitou o desenvolvimento dos módulos seguintes, já que eles funcionam como consumidores do trabalho realizado pelo primeiro módulo e possuem baixa complexidade, tanto na API quanto no módulo de frontend, estes exigiram menor tempo de desenvolvimento.
@@ -104,7 +104,7 @@ O diagrama de casos de uso abaixo apresenta as principais funcionalidades do sis
     \centering
     \includegraphics[width=1\linewidth]{figs/useCase.png}
     \caption{Diagrama de caso de uso do sistema}
-    \label{fig:placeholder}
+    \label{fig:diagrama_casos_de_uso}
 \end{figure}
 
 % <Nesta seção, apresente a descrição do diagrama de caso de uso que foi levantado para o sistema>
@@ -403,31 +403,31 @@ O diagrama de casos de uso abaixo apresenta as principais funcionalidades do sis
 \end{itemize}
 
 \section{Protótipos das interfaces com usuários}
-A figura X ilustra um esboço do layout da pagina de buscas, a ideia foi manter todo o conteúdo necessário em somente uma página, com o componente de formulário de pesquisa sendo o elemento central. Além de uma exibição do documento mais recente.
+A figura \ref{fig:prototipo_inicial} ilustra um esboço do layout da pagina de buscas, a ideia foi manter todo o conteúdo necessário em somente uma página, com o componente de formulário de pesquisa sendo o elemento central. Além de uma exibição do documento mais recente.
 
 \begin{figure} [htbp!]
     \centering
     \includegraphics[width=0.7\linewidth]{figs/esboco-layout1.jpg}
     \caption{Protótipo inicial}
-    \label{fig:placeholder}
+    \label{fig:prototipo_inicial}
 \end{figure}
 
-Já a figura X exibe uma captura da tela em estágio de desenvolvimento, a estrutura segue o que foi definido no esboço inicial e serviu como ponto de partida para refinamento final. Neste estágio o sistema já estava operacional para realização de buscas e exibição de resultados, porém sua estrutura visual ainda não estava preparada para ter responsividade para o acesso através de dispositivos móveis. 
+Já a figura \ref{fig:versao_inicial_op} exibe uma captura da tela em estágio de desenvolvimento, a estrutura segue o que foi definido no esboço inicial e serviu como ponto de partida para refinamento final. Neste estágio o sistema já estava operacional para realização de buscas e exibição de resultados, porém sua estrutura visual ainda não estava preparada para ter responsividade para o acesso através de dispositivos móveis. 
 
 \begin{figure} [htbp!]
     \centering
     \includegraphics[width=0.7\linewidth]{figs/diariosScraperUI.png}
     \caption{Versão inicial operável}
-    \label{fig:placeholder}
+    \label{fig:versao_inicial_op}
 \end{figure}
 
-Por fim, na captura da figura X contém o sistema em estágios finais de desenvolvimento, com refinamentos na exibição de resultados e com responsividade melhorada para permitir o acesso da página através de dispositivos móveis.
+Por fim, na captura da figura \ref{fig:versao_final} contém o sistema em estágios finais de desenvolvimento, com refinamentos na exibição de resultados e com responsividade melhorada para permitir o acesso da página através de dispositivos móveis.
 
 \begin{figure} [htbp!]
     \centering
     \includegraphics[width=0.7\linewidth]{figs/prints/versao_final.png}
     \caption{Versão final}
-    \label{fig:placeholder}
+    \label{fig:versao_final}
 \end{figure}
 
 %<Esta seção deve conter desenhos ou rascunhos das telas do sistema que forem necessários ou convenientes para esclarecer algum dos requisitos do sistema. Para sistemas que possuem protótipos ou versões já desenvolvidas é possível capturar as telas e apresentar figuras das mesmas.

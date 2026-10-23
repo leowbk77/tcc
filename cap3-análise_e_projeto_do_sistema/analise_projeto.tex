@@ -1,6 +1,6 @@
 \chapter[Análise e Projeto do Sistema]{Análise e Projeto do Sistema}
 
-Este capítulo apresenta a análise e projeto do sistema de acordo com os requisitos levantados, a figura 3 apresenta uma visualização da arquitetura planejada, demonstrando como seus módulos e atores interagem.
+Este capítulo apresenta a análise e projeto do sistema de acordo com os requisitos levantados, a figura \ref{fig:diagrama_arquitetura_sistema_recuperacao} apresenta uma visualização da arquitetura planejada, demonstrando como seus módulos e atores interagem.
 
 \begin{figure}[htp]
     \centering
@@ -13,7 +13,7 @@ Este capítulo apresenta a análise e projeto do sistema de acordo com os requis
 
 \section{Modelo de Domínio do Sistema}
 
-O modelo inicial de domínio da figura 6 representa o problema que o sistema buscar resolver, demonstrando o fluxo conceitual: uma cidade publica vários diários que são compostos por várias páginas, as páginas são indexadas em um índice textual que é consultado conforme os critérios de busca do usuário para que os documentos sejam recuperados e exibidos de acordo com estes critérios.
+O modelo inicial de domínio da figura \ref{fig:diagrama_modelo_dominio_sistema} representa o problema que o sistema busca resolver, demonstrando o fluxo conceitual: uma cidade publica vários diários que são compostos por várias páginas, as páginas são indexadas em um índice textual que é consultado conforme os critérios de busca do usuário para que os documentos sejam recuperados e exibidos de acordo com estes critérios.
 
 \begin{figure}[htp]
     \centering
@@ -22,7 +22,7 @@ O modelo inicial de domínio da figura 6 representa o problema que o sistema bus
     \label{fig:diagrama_modelo_dominio_sistema}
 \end{figure}
 
-A partir deste modelo já é possível ter uma ideia inicial dos módulos que compõem o sistema. Se faz necessário um componente de obtenção e indexação dos documentos, um componente responsável pelas consultas e um componente de exibição dos resultados, no caso deste trabalho, como foi mostrado na figura 5, o paralelo são os módulos de coleta e indexação, backend e frontend, respectivamente.
+A partir deste modelo já é possível ter uma ideia inicial dos módulos que compõem o sistema. Se faz necessário um componente de obtenção e indexação dos documentos, um componente responsável pelas consultas e um componente de exibição dos resultados, no caso deste trabalho, como mostrado no modelo de arquitetura da figura \ref{fig:diagrama_arquitetura_sistema_recuperacao}, o paralelo são os módulos de coleta e indexação, backend e frontend, respectivamente.
 %<Neste item deve ser apresentado o modelo do domínio, que representa um primeiro modelo conceitual do diagrama de classes. Posteriormente, esse diagrama deve ser validado e complementado para compor o diagrama de classes final.>
 
 %\begin{figure}[h]
@@ -32,7 +32,7 @@ A partir deste modelo já é possível ter uma ideia inicial dos módulos que co
 %\end{figure}
 \section{Diagramas de Sequência do Sistema}
 %<Neste item devem ser apresentados os diagramas de seqüência essenciais (mais importates) ao sistema. Um diagrama de seqüência representa interações de objetos organizadas em uma seqüência temporal, apresentando os objetos que participam da interação e a seqüência das mensagens trocadas. O diagrama de seqüência deve validar o diagrama de classes e vice-versa. Pode ser usado como alternativa ao diagrama ed sequência o diagrama de colaboração.>
-A seguir são apresentados os diagramas de sequência mais relevantes do sistema. A figura X apresenta o diagrama criado inicialmente para representar a sequência da busca textual, partindo da interação do usuário com o frontend enviando uma requisição de busca nos diários indexados e retorno da resposta pela API.
+A seguir são apresentados os diagramas de sequência mais relevantes do sistema. A figura \ref{fig:diagrama_sequencia_busca} apresenta o diagrama criado inicialmente para representar a sequência da busca textual, partindo da interação do usuário com o frontend enviando uma requisição de busca nos diários indexados e retorno da resposta pela API.
 
 \begin{figure}[htp]
     \centering
@@ -53,7 +53,7 @@ Nos itens seguintes são apresentados os diagramas  referentes ao processo de co
 
 \subsection{Diagramas de Sequência - (RF001, RF002, RF003, RF004) - Processo de Coleta e Indexação}
 
-O diagrama do processo de coleta e indexação abrange os requisitos funcionais RF001, RF002, RF003 e RF004, nele é descrito o processo realizado para coleta e indexação dos documentos, sendo um operador manual ou ferramenta de agendamento de execução que inicia o processo de execução da ferramenta, que cuida da obtenção da lista de documentos, download e indexação no banco SQLite.
+O diagrama do processo de coleta e indexação (figura \ref{fig:diagrama_processo_coleta_index}) abrange os requisitos funcionais RF001, RF002, RF003 e RF004, nele é descrito o processo realizado para coleta e indexação dos documentos, sendo um operador manual ou ferramenta de agendamento de execução que inicia o processo de execução da ferramenta, que cuida da obtenção da lista de documentos, download e indexação no banco SQLite.
 
 \begin{figure}[htp]
     \centering
@@ -66,7 +66,7 @@ A indexação é feita a partir da leitura de cada página do documento separada
 
 \subsection{Diagramas de Sequência - (RF005, RF006, RF007) - Processo de Busca}
 
-Já o diagrama de busca abrange os requisitos funcionais RF005, RF006 e RF007, nele é descrito o processo de busca desde a requisição feita pelo usuário no frontend web, passando pelos módulos de backend até o retorno da lista de documentos obtidos de acordo com a pesquisa realizada. Neste processo o usuário define termos de busca, filtragem por datas e edição e a partir disto a API REST monta a consulta que será realizada ao banco de dados.
+Já o diagrama de busca (figura \ref{fig:diagrama_processo_busca}) abrange os requisitos funcionais RF005, RF006 e RF007, nele é descrito o processo de busca desde a requisição feita pelo usuário no frontend web, passando pelos módulos de backend até o retorno da lista de documentos obtidos de acordo com a pesquisa realizada. Neste processo o usuário define termos de busca, filtragem por datas e edição e a partir disto a API REST monta a consulta que será realizada ao banco de dados.
 
 \begin{figure}[htp]
     \centering
@@ -75,11 +75,11 @@ Já o diagrama de busca abrange os requisitos funcionais RF005, RF006 e RF007, n
     \label{fig:diagrama_processo_busca}
 \end{figure}
 
- A API possui um endpoint de pesquisa ("/search"), que recebe a requisição com os dados de busca definidos pelo usuário e a montagem da consulta é feita a depender de quais dados de busca foram enviados, sendo possível buscar apenas por consulta de texto, datas e edição, ou o conjunto destas informações. O resultado da consulta realizada é serializado em formato JSON e devolvido ao front para listagem.
+ A API possui um endpoint de pesquisa ("/search"), que recebe a requisição com os dados de busca definidos pelo usuário e a montagem da consulta é feita a depender de quais dados de busca foram enviados na requisição, sendo possível buscar apenas por consulta de texto, datas e edição, ou o conjunto destas informações. O resultado da consulta realizada é serializado em formato JSON e devolvido ao frontend para exibição.
 
 \subsection{Diagramas de Sequência - (RF008, RF009, RF010) - Visualização do Documento}
 
-O diagrama de visualização da figura X expande o diagrama do processo de busca da figura X, fornecendo uma visão de como é estruturada a busca pelos documentos que o usuário pretende visualizar.
+O diagrama de visualização da figura \ref{fig:diagrama_visualizacao_resultados} expande o diagrama do processo de busca da figura \ref{fig:diagrama_processo_busca}, oferecendo uma visão de como é estruturada a busca pelos documentos que o usuário pretende visualizar.
 
 \begin{figure}[htp]
     \centering
@@ -88,12 +88,12 @@ O diagrama de visualização da figura X expande o diagrama do processo de busca
     \label{fig:diagrama_visualizacao_resultados}
 \end{figure}
 
-Depois que o usuário definiu quais termos de busca e filtros serão aplicados, esta informação é repassada para a API que realiza a busca na base de dados usando a consulta definida. Primeiramente é obtida a lista de id's de documentos que resultam da busca realizada, a partir destes id's são obtidos os metadados e as 3 primeiras páginas de cada um destes documentos que contém os trechos pesquisados (no caso de busca textual), caso a busca seja feita somente por data a API retorna somente a primeira página do documento. O frontend recebe a resposta da consulta com estes dados e faz a listagem usando as informações de edição, data e link de acesso ao pdf, além de utilizar as páginas que contém os trechos pesquisados para exibir a prévia na listagem.
+Depois que o usuário definiu quais termos de busca e filtros serão aplicados, esta informação é repassada para a API que realiza a busca na base de dados usando a consulta definida. Primeiramente é obtida a lista de id's de documentos que resultam da busca realizada, a partir destes id's são obtidos os metadados e as 3 primeiras páginas de cada um destes documentos que contém os trechos pesquisados (no caso de busca textual), caso a busca seja feita somente por data a API retorna somente a primeira página do documento. O frontend recebe a resposta da consulta com estes dados e faz a listagem usando as informações de edição, data e link de acesso ao pdf, além de exibir a prévia das páginas que contém os trechos pesquisados na listagem.
 
 \section{Modelagem de Dados do Sistema}
 \subsection{Modelo Lógico de Dados do Sistema}
 
-A figura XX apresenta o modelo de Entidade-Relacionamento construído nas versões iniciais do desenvolvimento e o modelo final após o desenvolvimento do sistema. Como o SQLite não possui um tipo de dado específico para armazenar datas, apenas funções de tempo que realizam operações usando tipos numéricos e de texto, a ideia inicial foi armazenar os valores de ano, mês e dia de forma separada em campos com tipos de dados numéricos.
+A figura \ref{fig:diagrama_modelo_entidade} apresenta o modelo de Entidade-Relacionamento construído nas versões iniciais do desenvolvimento e o modelo final após o desenvolvimento do sistema. Como o SQLite não possui um tipo de dado específico para armazenar datas, apenas funções de tempo que realizam operações usando tipos numéricos e de texto, a ideia inicial foi armazenar os valores de ano, mês e dia de forma separada em campos com tipos de dados numéricos.
 
 \begin{figure} [htp]
     \centering
@@ -119,7 +119,7 @@ Diferente de outros motores de banco de dados que normalmente precisam de um tra
 \subsection{Modelo Físico de Dados do Sistema}
 %<Neste item deve ser realizada a criação física do banco de dados, ou seja, a criação de scripts.>
 
-Os scripts abaixo representam a criação de tabelas do banco, já utilizando o modelo final definido. O código 3.1 apresenta o script de criação da tabela "docs", que contém os metadados do documento, já o código 3.2 apresenta o script de criação da tabela "docs\_fts", que armazena as páginas indexadas de cada documento.
+Os scripts abaixo representam a criação de tabelas do banco, já utilizando o modelo final definido. O código \ref{sql:criacao_docs} apresenta o script de criação da tabela "docs", que contém os metadados do documento, já o código \ref{sql:criacao_docs_fts} apresenta o script de criação da tabela "docs\_fts", que armazena as páginas indexadas de cada documento.
 
 \begin{lstlisting}[caption={Criação da tabela de documentos}, label={sql:criacao_docs}, language=SQL]
 CREATE TABLE IF NOT EXISTS docs(
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS docs(
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
-A tabela "docs" apresentada no código 3.1 serve como um indice dos documentos que foram lidos e indexados, ela contém uma chave de id único para cada documento e seus dados básicos que são utilizados pelo frontend para listagem, além do link de acesso direto ao arquivo pdf do diário, armazenado na coluna "caminho".
+A tabela "docs" apresentada no código \ref{sql:criacao_docs} serve como um indice dos documentos que foram lidos e indexados, ela contém uma chave de id único para cada documento e seus dados básicos que são utilizados pelo frontend para listagem, além do link de acesso direto ao arquivo pdf do diário, armazenado na coluna "caminho".
 
 \begin{lstlisting}[caption={Criação da tabela de indexação dos documentos}, label={sql:criacao_docs_fts}, language=SQL]
 CREATE VIRTUAL TABLE IF NOT EXISTS docs_fts
@@ -138,7 +138,7 @@ USING fts5(doc_id, pagina, conteudo, tokenize = "unicode61 remove_diacritics 0")
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
-No caso do código 3.2, referente a criação da tabela de indexação de documentos, além das colunas definidas, também é passado para a função fts5 o parâmetro "tokenize" que permite escolher qual algoritmo será utilizado no processo de indexação textual na tabela, além de propriedades para o algoritmo. No caso deste trabalho foi utilizada a propriedade "remove\_diacritics 0" junto com o algoritmo unicode61, esta propriedade serve para que o algoritmo faça diferenciação de caracteres como "ç" e "c", caso a propriedade não seja definida o algoritmo faz o processo de "tokenização" destes caracteres de forma a considera-los como o mesmo caractere, o que pode refletir em resultados de busca indesejados.
+No caso do código \ref{sql:criacao_docs_fts}, referente a criação da tabela de indexação de documentos, além das colunas definidas, também é passado para a função fts5 o parâmetro "tokenize" que permite escolher qual algoritmo será utilizado no processo de indexação textual na tabela, além de propriedades para o algoritmo. No caso deste trabalho foi utilizada a propriedade "remove\_diacritics 0" junto com o algoritmo unicode61, esta propriedade serve para que o algoritmo faça diferenciação de caracteres como "ç" e "c", caso a propriedade não seja definida o algoritmo faz o processo de "tokenização" destes caracteres de forma a considera-los como o mesmo caractere, o que pode refletir em resultados de busca indesejados.
 
 \subsection{Dicionário de Dados do Sistema }
 
@@ -177,13 +177,13 @@ A segunda é a tabela "docs\_fts", que é uma tabela criada utilizando o mecanis
     \end{tabularx}
 \end{table}
 
-Todo o conteúdo dos documentos é separado por páginas durante a leitura do arquivo no módulo de scraping e cada página é armazenada separadamente na tabela. No SQLite, internamente todo conteúdo das tabelas criadas usando este mecanismo é tratado e otimizado como texto, por isso suas colunas não possuem tipo como foi possível visualizar anteriormente no código 3.2, os dados armazenados são parte de um índice invertido e são "tokenizados" para otimização de busca textual.
+Todo o conteúdo dos documentos é separado por páginas durante a leitura do arquivo no módulo de scraping e cada página é armazenada separadamente na tabela. No SQLite, internamente todo conteúdo das tabelas criadas usando este mecanismo é tratado e otimizado como texto, por isso suas colunas não possuem tipo como foi possível visualizar anteriormente no código \ref{sql:criacao_docs_fts}, os dados armazenados são parte de um índice invertido e são "tokenizados" para otimização de busca textual.
 
 %<Neste item deve ser criado o dicionário de dados do banco de dados, com o obejtivo de documentar todas as tabelas, atributos, triggers e stored procedures.>
 
 \section{Diagrama de Classe do Sistema}
 
-A figura XX contém o diagrama de classes da API, que apresenta as classes de modelos de requisição, resposta e entidade do sistema.
+A figura \ref{fig:diagrama_classes_api_back} contém o diagrama de classes da API, que apresenta as classes de modelos de requisição, resposta e entidade do sistema.
 
 \begin{figure}[htbp!]
     \centering
@@ -203,7 +203,7 @@ A figura XX contém o diagrama de classes da API, que apresenta as classes de mo
 
 \section{Diagramas de Atividades}
 
-A figura XX demonstra o diagrama de fluxo de busca do sistema, que descreve o caminho percorrido desde a solicitação de busca pelo usuário até a exibição dos resultados e o diagrama de fluxo de coleta e indexação, que descreve o fluxo de obtenção dos documentos até o fim do processo de indexação.
+A figura \ref{fig:diagrama_fluxos_sistema} demonstra o diagrama de fluxo de busca do sistema, que descreve o caminho percorrido desde a solicitação de busca pelo usuário até a exibição dos resultados e o diagrama de fluxo de coleta e indexação, que descreve o fluxo de obtenção dos documentos até o fim do processo de indexação.
 
 \begin{figure}[h]
     \centering
@@ -227,7 +227,7 @@ Já no fluxo de busca, o primeiro passo é a entrada dos termos de busca e filtr
 
 \section{Diagrama de Implantação do Sistema}
 
-Durante o desenvolvimento, foi utilizado um servidor VPS para a implantação e testes em um ambiente de execução mais próximo do real. A figura X representa o diagrama de implantação do sistema a partir desta implantação feita em desenvolvimento.
+Durante o desenvolvimento, foi utilizado um servidor VPS para a implantação e testes em um ambiente de execução mais próximo do real. A figura \ref{fig:diagrama_implantacao_sistema} representa o diagrama de implantação do sistema a partir desta implantação feita em desenvolvimento.
 
 Um único servidor foi utilizado para a execução de todos os recursos desenvolvidos, no caso da API REST e do fronted web o gerenciamento é feito usando a ferramenta Docker Compose, usada para a definição da estrutura onde dois conteineres executam as aplicações separadamente, sendo um deles um container rodando o servidor web Nginx que opera para acesso ao frontend e também como proxy reverso para a API.
 
@@ -240,7 +240,7 @@ Um único servidor foi utilizado para a execução de todos os recursos desenvol
 
  Já o serviço python de coleta e indexação opera diretamente no sistema operacional do servidor. A API tem acesso ao banco de dados que é compartilhado entre o sistema operacional do servidor e o container através de um volume compartilhado que é definido no arquivo YML de estrutura operado pelo Docker Compose, isto permite que o scraper e a API possam acessar a base de dados para realizar as operações de indexação e busca.
 
- No caso do servidor de desenvolvimento, o acesso através da internet aos serviços hospedados foi possível graças ao uso da ferramenta Cloudflare Tunnel, que possibilita a criação de um "tunnel" protegido entre o servidor e a rede da Cloudflare, facilitando a exposição do sistema na rede.
+ No caso do servidor de desenvolvimento, o acesso através da internet aos serviços hospedados foi possível graças ao uso da ferramenta Cloudflare Tunnel, que possibilita a criação de um "tunnel" protegido entre o servidor e a rede da Cloudflare, facilitando a exposição do sistema na web.
 
 %<Neste item deve ser apresentado o diagrama de implantação que representa a arquitetura física de um sistema, mostrando como os componentes de software são alocados em hardware real. Ele visualiza a estrutura de execução de um sistema, incluindo nós (hardware e software) e o middleware que os conecta.>
 
