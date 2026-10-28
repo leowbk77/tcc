@@ -235,7 +235,7 @@ npm run build
 \end{lstlisting}\noindent
     \item O comando de construção gera o diretório com os arquivos estáticos da aplicação:
 \begin{lstlisting}[caption={}, label={run:npm_build_dir}, language=bash]
-frontend/dist/
+js_diarios_ui/dist/
 \end{lstlisting}\noindent
     \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é posteriormente acessado pelo Nginx para disponibilização da aplicação na web.
 \end{enumerate}
@@ -251,6 +251,9 @@ Para o backend, o desenvolvimento fica contido à IDE do Visual Studio, onde a a
 dotnet publish -c Release
 \end{lstlisting}\noindent
     \item O comando de construção gera o diretório com os arquivos estáticos da aplicação.
+\begin{lstlisting}[caption={}, label={run:dotnet_build_dir}, language=bash]
+dotnet_diarios_api/Diarios.Api/bin/
+\end{lstlisting}\noindent
     \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é montado como um volume no container da API.
     \item O arquivo de configuração da aplicação é ajustado conforme a estrutura de diretórios da implantação.
 \end{enumerate}
@@ -271,6 +274,13 @@ Antes deste processo, o preparação no servidor começa pela criação dos cont
 \end{enumerate}
 
 O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figs//prints/estruturaServidorTCC.png}
+    \caption{Estrutura de Diretórios no servidor}
+    \label{fig:prints_estrutura_server}
+\end{figure}
 
 %<Neste subitem devem ser detalhado os procsso de instalação/ execução do para o sistema.>
 
@@ -329,6 +339,9 @@ DataBaseDir = /opt/diariosapp/data/
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
+Os códigos \ref{cfg:config_python} e \ref{cfg:config_dotnet} apresentam os arquivos de configuração do scraper e da API backend respectivamente. No caso do código do arquivo de configuração do scraper existem diferentes variáveis que podem ser utilizadas (descritas na tabela \ref{tab:tabela_variaveis_de_ambiente}), as duas mais relevantes são as variáveis "DownloadsDir" e "DataBaseDir" do campo "[data]", que definem os caminhos dos diretórios de download dos arquivos pdf dos diários oficiais obtidos e da base de dados SQLite onde a indexação é feita.
+
+Já o arquivo de configuração referente à API contém as strings de conexão que apontam para as bases de dados de cada cidade configurada. Aqui o caminho é correspondente ao do diretório que é montado no volume do container da API no Docker, já que durante a execução a API só "enxerga" os diretórios montados no container onde ela é executada.
 
 \begin{lstlisting}[caption={docker-compose.yml}, label={cfg:config_docker}, language=csh]
 services:
@@ -361,6 +374,8 @@ services:
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
+O código \ref{cfg:config_docker} apresenta o arquivo de configuração do Docker, nele é definida a estrutura dos containeres onde a API e o módulo de frontend são executados. A estrutura separa os dois serviços e define os volumes que são montados no sistema de arquivos de cada container, no caso da API são os volumes correspondentes ao diretório onde os arquivos da aplicação foram copiados no servidor (linha 13) e o diretório onde as bases de dados SQLite estão (linha 14). Já no módulo de frontend os volumes são correspondentes ao diretório com os arquivos estáticos que foram copiados para o servidor (linha 21) e o caminho do arquivo de configuração do Nginx (linha 22).
+
 \begin{lstlisting}[caption={nginx.conf}, label={cfg:config_nginx}, language=csh]
 server {
     listen 80;
@@ -386,6 +401,9 @@ server {
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
+O arquivo de configuração do Nginx (código \ref{cfg:config_nginx}) define a estrutura do serviço que funciona como servidor http para o frontend e proxy reverso para a API, permitindo que as chamadas externas sejam atendidas.
+
+Os arquivos de configuração apresentados até aqui estão direcionados ao funcionamento dos módulos da aplicação e sua disponibilização. Para a execução automatizada do scraper foi feito o uso do systemd para o agendamento de execução do script, os blocos de código a seguir apresentam os arquivos utilizados nesta funcionalidade.
 
 \begin{lstlisting}[caption={diarios-scraper.service}, label={cfg:config_srvc_diarios_scraper}, language=csh]
 [Unit]
@@ -413,6 +431,7 @@ WantedBy=timers.target
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
+Os blocos de código \ref{cfg:config_srvc_diarios_scraper} e \ref{cfg:config_srvc_diarios_scraper_timer} apresentam os arquivos de configuração que definem o agendamento da execução do script que gera o comando de busca por diários, no exemplo apresentado esta execução é realizada diariamente após às 23:55.
 
 \begin{lstlisting}[caption={run-scraper.sh}, label={sh:run_scraper_sh}, language=bash]
 #!/bin/bash
@@ -424,6 +443,8 @@ MES=$(date +%-m)
 /opt/diariosapp/scraping/py_diarios_scraper/src/diarios_scrap.py -i -dl -a "$ANO" -m "$MES" -c udi
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
+
+O código \ref{sh:run_scraper_sh} contém a definição do script de execução da chamada do scraper, o script utiliza o interpretador do python que está dentro do ambiente virtual criado para a execução do módulo, além de obter a data atual que é passada como parâmetro na chamada.
 
 %<Neste subitem devem ser detalhado os arquivos de configuração para o sistema.>
 
@@ -527,12 +548,6 @@ As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios
 
 \subsection{Estrutura de Diretórios}
 
-\begin{figure}[htp]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs//prints/estruturaServidorTCC.png}
-    \caption{Estrutura de Diretórios no servidor}
-    \label{fig:prints_estrutura_server}
-\end{figure}
 
 \subsection{Guia de Contribuições (se aplicável)}
 ...
