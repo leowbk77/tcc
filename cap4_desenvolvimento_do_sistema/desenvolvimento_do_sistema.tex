@@ -266,21 +266,23 @@ Para o módulo do scraper o processo é um pouco diferente dos dois módulos ant
 Após a criação do ambiente virtual e obtenção das dependências do projeto, o scraper deve ser executado utilizando do interpretador Python presente no diretório do ambiente virtual, permitindo que o projeto tenha acesso as dependências previamente definidas. Além disso, uma configuração adicional é necessária no arquivo de configuração presente no diretório do projeto do scraper, para certificação de que o scraper está acessando o mesmo diretório de base dadaos que a API, já que o banco de dados é compartilhado entre os dois módulos do sistema de buscas. Esta configuração é demonstrada nas seções seguintes.
 
 \subsubsection{Servidor}
-Antes deste processo, o preparação no servidor começa pela criação dos conteiners que vão executar os componentes web da aplicação. A arquitetura possui dois conteiners principais:
+Antes deste processo, a preparação no servidor começa pela criação dos conteiners que vão executar os componentes web da aplicação. A arquitetura possui dois conteiners principais:
 
 \begin{enumerate}
     \item diarios-api
     \item diarios-ui
 \end{enumerate}
 
-O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação.
+O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação, o arquivo de configuração contendo a definição desta estrutura é mostrado no bloco de código \ref{cfg:config_docker} mais a diante.
+
+A figura \ref{fig:prints_estrutura_server} demonstra a estrutura de diretórios que foi criada para o sistema no servidor durante o desenvolvimento do trabalho. Os diretórios "backend" e "frontend" que contém os arquivos gerados da compilação dos aplicações serão montados em volumes nos conteineres, assim como o diretório "data" que também é montado no container da API permitindo que a base de dados SQLite possa ser acessada pela aplicação.
 
 \begin{figure}[htp]
     \centering
     \includegraphics[width=0.7\linewidth]{figs//prints/estruturaServidorTCC.png}
     \caption{Estrutura de Diretórios no servidor}
     \label{fig:prints_estrutura_server}
-\end{figure}
+\end{figure} \noindent{\footnotesize Fonte: O autor (2026).}
 
 %<Neste subitem devem ser detalhado os procsso de instalação/ execução do para o sistema.>
 
@@ -417,7 +419,6 @@ ExecStart=/opt/diariosapp/scraping/run_scraper.sh
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
-
 \begin{lstlisting}[caption={diarios-scraper.timer}, label={cfg:config_srvc_diarios_scraper_timer}, language=csh]
 [Unit]
 Description=Agendamento da coleta de diarios
@@ -444,49 +445,9 @@ MES=$(date +%-m)
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
-O código \ref{sh:run_scraper_sh} contém a definição do script de execução da chamada do scraper, o script utiliza o interpretador do python que está dentro do ambiente virtual criado para a execução do módulo, além de obter a data atual que é passada como parâmetro na chamada.
+O código \ref{sh:run_scraper_sh} contém a definição do script que executa a chamada do scraper. O script utiliza o interpretador do python que está dentro do ambiente virtual criado para a execução do módulo, além de obter a data atual que é passada como parâmetro na chamada.
 
 %<Neste subitem devem ser detalhado os arquivos de configuração para o sistema.>
-
-%---------------------------------------------------------------------------
-\section{Compilação e Implantação <Opcional>}
-Nesta seção é descrito o processo de compilação e implantação em detalhes
-%<Neste item devem ser descritos os requisitos necessários para compilação e implantação do sistema.>
-\subsection{Processo de Compilação do Sistema}
-...
-
-SERVIDOR:
-diretório da aplicação: /opt/diariosapp/
-	criar as separações de diretório
-	-> /opt/diariosapp/backend
-		-> mover a pasta "publish" da compilação pra cá
-	-> /opt/diariosapp/frontend
-		-> mover a pasta "dist" da compilação pra cá
-		-> alterar as permissões da dist usando (sudo chmod -R a+rX ./dist)
-	-> /opt/diariosapp/scripting
-		-> criar o diretorio com venv para o python 3 aqui
-		-> mover os arquivos do script pra dentro do diretório src
-	-> /opt/diariosapp/data
-	-> /opt/docker-compose.yml
-
-DOCKER:
-...
-
-NGINX:
-...
-
-SYSTEMD TIMER:
-...
-
-ARQUIVOS DE CONFIGURAÇÃO:
-...
-
-\subsection{Opções de Implantação do Sistema}
-...
-
-\subsection{Configurações para Produção}
-...
-
 
 %---------------------------------------------------------------------------
 \section{Utilização do Sistema}
@@ -526,7 +487,7 @@ ARQUIVOS DE CONFIGURAÇÃO:
 
 %---------------------------------------------------------------------------
 \section{Repositório de Código}
-As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios públicos separados no github do autor, os links de acesso podem ser encontrados na tabela X.
+As ferramentas desenvolvidas no trabalho foram disponibilizadas em repositórios públicos separados no github do autor, os links de acesso podem ser encontrados na tabela \ref{tab:tabela_links_repos}.
 %<Este item tem como objetivo disponibilizar para o leitor do trabalho o repositorio completo do que foi desenvolvido no trabalho.>
 \subsection{Link para o Repositório}
 
