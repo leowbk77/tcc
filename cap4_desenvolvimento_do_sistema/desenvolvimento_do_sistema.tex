@@ -174,7 +174,7 @@ A execução do sistema requer uma infraestrutura capaz de hospedar os component
         Componente & Ferramenta & Finalidade \\
         \midrule
         Sistema Operacional & Ubuntu Server & Hospedagem do sistema\\ 
-        Conteinerização & Docker + Docker Compose & Execução da API e Nginx\\
+        Contêinerização & Docker + Docker Compose & Execução da API e Nginx\\
         Servidor web & Nginx & Frontend e proxy reverso \\ 
         Coleta & Python 3 & Scraping dos Diários\\ 
         Automação & systemd & Execução automática do scraper \\
@@ -240,7 +240,7 @@ js_diarios_ui/dist/
     \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é posteriormente acessado pelo Nginx para disponibilização da aplicação na web.
 \end{enumerate}
 
-Portanto, o ambiente no servidor não executa código React diretamente. Os arquivos Typescript são transformados em arquivos estáticos que são disponibilizados pelo servidor web. O container do Nginx ("diarios-ui") recebe o diretório com os arquivos estáticos montado em um volume somente leitura no container, dessa forma o Nginx disponibiliza diretamente os arquivos gerados pelo comando de construção do frontend, essa estrutura permite que ao gerar novas versões da aplicação, os novos arquivos resultantes do processo de construção apenas substituam os arquivos antigos no diretório do servidor, assim o Nginx passa a servir os novos arquivos na web.
+Portanto, o ambiente no servidor não executa código React diretamente. Os arquivos Typescript são transformados em arquivos estáticos que são disponibilizados pelo servidor web. O contêiner do Nginx ("diarios-ui") recebe o diretório com os arquivos estáticos montado em um volume somente leitura no contêiner, dessa forma o Nginx disponibiliza diretamente os arquivos gerados pelo comando de construção do frontend, essa estrutura permite que ao gerar novas versões da aplicação, os novos arquivos resultantes do processo de construção apenas substituam os arquivos antigos no diretório do servidor, assim o Nginx passa a servir os novos arquivos na web.
 
 \subsubsection{Backend}
 Para o backend, o desenvolvimento fica contido à IDE do Visual Studio, onde a aplicação é desenvolvida e testada localmente em um ambiente integrado. Partindo para o processo de implantação, sua publicação é semelhante ao processo do frontend:
@@ -252,13 +252,13 @@ dotnet publish -c Release
 \end{lstlisting}\noindent
     \item O comando de construção gera o diretório com os arquivos estáticos da aplicação.
 \begin{lstlisting}[caption={}, label={run:dotnet_build_dir}, language=bash]
-dotnet_diarios_api/Diarios.Api/bin/
+dotnet_diarios_api/Diarios.Api/bin/Release/net9.0/publish/
 \end{lstlisting}\noindent
-    \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é montado como um volume no container da API.
+    \item O diretório contendo os arquivos da aplicação é copiado para o servidor em um diretório que é montado como um volume no contêiner da API.
     \item O arquivo de configuração da aplicação é ajustado conforme a estrutura de diretórios da implantação.
 \end{enumerate}
 
-O diretório gerado pela construção contém o assembly principal da aplicação, este diretório é compartilhado em um volume com o conteiner da API ("diarios-api") onde a aplicação é executada, este container não fica exposto na web, o container do Nginx redireciona chamadas feitas para a API pela web para o container da aplicação. No caso da API, uma configuração adicional é necessária após a implantação pois a aplicação precisa acessar o diretório onde está armazenada a base de dados SQLite, esta configuração é descrita nas seções seguintes.
+O diretório gerado pela construção contém o assembly principal da aplicação, este diretório é compartilhado em um volume com o contêiner da API onde a aplicação é executada, este contêiner não fica exposto na web, o contêiner do Nginx redireciona chamadas feitas para a API pela web para o contêiner da aplicação. No caso da API, uma configuração adicional é necessária após a implantação pois a aplicação precisa acessar o diretório onde está armazenada a base de dados SQLite, esta configuração é descrita nas seções seguintes.
 
 \subsubsection{Scraper}
 Para o módulo do scraper o processo é um pouco diferente dos dois módulos anteriores, o scraper utiliza um ambiente virtual próprio para evitar que suas dependências sejam instaladas globalmente no sistema operacional, isto vale tanto para o ambiente de desenvolvimento como para o ambiente de implantação. Por se tratar de uma linguagem interpretada, não é necessário que seja feita a compilação dos arquivos de código da aplicação, a execução pode ser feita diretamente ao passar o arquivo de script principal do scraper para o interpretador da linguagem Python. O repositório do código do scraper possui um arquivo "requirements.txt" que permite a ferramenta "pip" do Python obter as dependências necessárias do projeto dentro do ambiente virtual criado.
@@ -266,16 +266,16 @@ Para o módulo do scraper o processo é um pouco diferente dos dois módulos ant
 Após a criação do ambiente virtual e obtenção das dependências do projeto, o scraper deve ser executado utilizando do interpretador Python presente no diretório do ambiente virtual, permitindo que o projeto tenha acesso as dependências previamente definidas. Além disso, uma configuração adicional é necessária no arquivo de configuração presente no diretório do projeto do scraper, para certificação de que o scraper está acessando o mesmo diretório de base dadaos que a API, já que o banco de dados é compartilhado entre os dois módulos do sistema de buscas. Esta configuração é demonstrada nas seções seguintes.
 
 \subsubsection{Servidor}
-Antes deste processo, a preparação no servidor começa pela criação dos conteiners que vão executar os componentes web da aplicação. A arquitetura possui dois conteiners principais:
+Antes deste processo, a preparação no servidor começa pela criação dos contêiners que vão executar os componentes web da aplicação. A arquitetura possui dois contêiners principais:
 
 \begin{enumerate}
     \item diarios-api
     \item diarios-ui
 \end{enumerate}
 
-O conteiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o conteiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação, o arquivo de configuração contendo a definição desta estrutura é mostrado no bloco de código \ref{cfg:config_docker} mais a diante.
+O contêiner da API utiliza a imagem oficial disponibilizada pela Microsoft para a execução de aplicações .NET, já o contêiner do frontend utiliza a imagem oficial de build do Nginx, isso permite que a execução seja feita sem a necessidade de construção de uma imagem específica da aplicação, o arquivo de configuração contendo a definição desta estrutura é mostrado no bloco de código \ref{cfg:config_docker} mais a diante.
 
-A figura \ref{fig:prints_estrutura_server} demonstra a estrutura de diretórios que foi criada para o sistema no servidor durante o desenvolvimento do trabalho. Os diretórios "backend" e "frontend" que contém os arquivos gerados da compilação dos aplicações serão montados em volumes nos conteineres, assim como o diretório "data" que também é montado no container da API permitindo que a base de dados SQLite possa ser acessada pela aplicação.
+A figura \ref{fig:prints_estrutura_server} demonstra a estrutura de diretórios que foi criada para o sistema no servidor durante o desenvolvimento do trabalho. Os diretórios "backend" e "frontend" que contém os arquivos gerados da compilação dos aplicações serão montados em volumes nos contêineres, assim como o diretório "data" que também é montado no contêiner da API permitindo que a base de dados SQLite possa ser acessada pela aplicação.
 
 \begin{figure}[htp]
     \centering
@@ -284,11 +284,24 @@ A figura \ref{fig:prints_estrutura_server} demonstra a estrutura de diretórios 
     \label{fig:prints_estrutura_server}
 \end{figure} \noindent{\footnotesize Fonte: O autor (2026).}
 
+Para a execução automatizada do scraper, é possível utilizar diferentes serviços de agendamento de execução, no caso deste trabalho foi utilizada a ferramenta de serviço do systemd que gerencia a execução de processos em segundo plano no Linux. Para isso, foram criados dois arquivos: "diarios-scraper.service"\space e "diarios-scraper.timer"\space que estão presentes no seguinte diretório:
+\begin{lstlisting}[caption={}, label={dir:scraper_systemd_dir}, language=bash]
+/etc/systemd/system/
+\end{lstlisting}\noindent
+Para ativação dos scripts de execução são utilizados os comandos:
+
+\begin{lstlisting}[caption={}, label={sh:scraper_systemd_sh}, language=bash]
+sudo systemctl daemon-reload
+sudo systemctl enable diarios-scraper.timer
+sudo systemctl start diarios-scraper.timer
+\end{lstlisting}\noindent
+
+Ambos os arquivos de configuração estão especificados mais adiante nos blocos de código \ref{cfg:config_srvc_diarios_scraper} e \ref{cfg:config_srvc_diarios_scraper_timer}.
 %<Neste subitem devem ser detalhado os procsso de instalação/ execução do para o sistema.>
 
 \subsection{Variáveis de Ambientes Necessárias}
 
- Toda a configuração dos módulos do sistema é feita através de arquivos de configuração listados, não é necessário que sejam definidas variáveis de ambiente diretamente no sistema que está executando as aplicações. Abaixo está listada as principais variáveis de configuração e quais módulos e arquivos elas pertencem:
+ Toda a configuração dos módulos do sistema é feita através de arquivos de configuração listados, não é necessário que sejam definidas variáveis de ambiente diretamente no sistema que está executando as aplicações ((( NO ARQUIVO DE CONFIGURAÇÃO DO CONTAINER DA API EXISTE - REVISAR))). Abaixo está listada as principais variáveis de configuração e quais módulos e arquivos elas pertencem:
  
 \begin{table}[h]
     \centering
@@ -343,7 +356,7 @@ DataBaseDir = /opt/diariosapp/data/
 
 Os códigos \ref{cfg:config_python} e \ref{cfg:config_dotnet} apresentam os arquivos de configuração do scraper e da API backend respectivamente. No caso do código do arquivo de configuração do scraper existem diferentes variáveis que podem ser utilizadas (descritas na tabela \ref{tab:tabela_variaveis_de_ambiente}), as duas mais relevantes são as variáveis "DownloadsDir" e "DataBaseDir" do campo "[data]", que definem os caminhos dos diretórios de download dos arquivos pdf dos diários oficiais obtidos e da base de dados SQLite onde a indexação é feita.
 
-Já o arquivo de configuração referente à API contém as strings de conexão que apontam para as bases de dados de cada cidade configurada. Aqui o caminho é correspondente ao do diretório que é montado no volume do container da API no Docker, já que durante a execução a API só "enxerga" os diretórios montados no container onde ela é executada.
+Já o arquivo de configuração referente à API contém as strings de conexão que apontam para as bases de dados de cada cidade configurada. Aqui o caminho é correspondente ao do diretório que é montado no volume do contêiner da API no Docker, já que durante a execução a API só "enxerga" os diretórios montados no contêiner onde ela é executada.
 
 \begin{lstlisting}[caption={docker-compose.yml}, label={cfg:config_docker}, language=csh]
 services:
@@ -376,7 +389,7 @@ services:
 \end{lstlisting}
 \noindent{\footnotesize Fonte: O autor (2026).}
 
-O código \ref{cfg:config_docker} apresenta o arquivo de configuração do Docker, nele é definida a estrutura dos containeres onde a API e o módulo de frontend são executados. A estrutura separa os dois serviços e define os volumes que são montados no sistema de arquivos de cada container, no caso da API são os volumes correspondentes ao diretório onde os arquivos da aplicação foram copiados no servidor (linha 13) e o diretório onde as bases de dados SQLite estão (linha 14). Já no módulo de frontend os volumes são correspondentes ao diretório com os arquivos estáticos que foram copiados para o servidor (linha 21) e o caminho do arquivo de configuração do Nginx (linha 22).
+O código \ref{cfg:config_docker} apresenta o arquivo de configuração do Docker, nele é definida a estrutura dos contêineres onde a API e o módulo de frontend são executados. A estrutura separa os dois serviços e define os volumes que são montados no sistema de arquivos de cada contêiner, no caso da API são os volumes correspondentes ao diretório onde os arquivos da aplicação foram copiados no servidor (linha 13) e o diretório onde as bases de dados SQLite estão (linha 14). Já no módulo de frontend os volumes são correspondentes ao diretório com os arquivos estáticos que foram copiados para o servidor (linha 21) e o caminho do arquivo de configuração do Nginx (linha 22).
 
 \begin{lstlisting}[caption={nginx.conf}, label={cfg:config_nginx}, language=csh]
 server {
