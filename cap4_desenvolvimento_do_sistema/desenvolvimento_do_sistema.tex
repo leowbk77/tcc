@@ -258,7 +258,7 @@ dotnet_diarios_api/Diarios.Api/bin/Release/net9.0/publish/
     \item O arquivo de configuração da aplicação é ajustado conforme a estrutura de diretórios da implantação.
 \end{enumerate}
 
-O diretório gerado pela construção contém o assembly principal da aplicação, este diretório é compartilhado em um volume com o contêiner da API onde a aplicação é executada, este contêiner não fica exposto na web, o contêiner do Nginx redireciona chamadas feitas para a API pela web para o contêiner da aplicação. No caso da API, uma configuração adicional é necessária após a implantação pois a aplicação precisa acessar o diretório onde está armazenada a base de dados SQLite, esta configuração é descrita nas seções seguintes.
+O diretório gerado pela construção contém o assembly principal da aplicação, este diretório é compartilhado em um volume com o contêiner da API onde a aplicação é executada, este contêiner não fica exposto na web, o contêiner do Nginx redireciona chamadas feitas para a API pela web para a aplicação. No caso da API, uma configuração adicional é necessária após a implantação pois a aplicação precisa acessar o diretório onde está armazenada a base de dados SQLite, esta configuração é descrita nas seções seguintes.
 
 \subsubsection{Scraper}
 Para o módulo do scraper o processo é um pouco diferente dos dois módulos anteriores, o scraper utiliza um ambiente virtual próprio para evitar que suas dependências sejam instaladas globalmente no sistema operacional, isto vale tanto para o ambiente de desenvolvimento como para o ambiente de implantação. Por se tratar de uma linguagem interpretada, não é necessário que seja feita a compilação dos arquivos de código da aplicação, a execução pode ser feita diretamente ao passar o arquivo de script principal do scraper para o interpretador da linguagem Python. O repositório do código do scraper possui um arquivo "requirements.txt" que permite a ferramenta "pip" do Python obter as dependências necessárias do projeto dentro do ambiente virtual criado.
@@ -348,7 +348,7 @@ DataBaseDir = /opt/diariosapp/data/
 {
   "ConnectionStrings": {
     "udi": "Data Source=/data/udi.db",
-    "monte": "Data Source=./data/monte.db"
+    "monte": "Data Source=/data/monte.db"
   },
 }
 \end{lstlisting}
